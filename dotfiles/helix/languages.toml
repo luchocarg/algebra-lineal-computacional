@@ -1,0 +1,62 @@
+# --- PYTHON ---
+
+[language-server.pyright]
+command = "pyright-langserver"
+args = ["--stdio"]
+config.python.analysis.typeCheckingMode = "basic"
+
+[language-server.ruff]
+command = "ruff"
+args = ["server"]
+
+[[language]]
+name = "python"
+language-servers = ["pyright", "ruff"]
+formatter = { command = "ruff", args = ["format", "--line-length", "79", "-"] }
+auto-format = true
+
+[language.debugger]
+name = "debugpy"
+transport = "stdio"
+command = "python"
+args = ["-m", "debugpy.adapter"]
+
+[[language.debugger.templates]]
+name = "source"
+request = "launch"
+completion = [ { name = "entrypoint", completion = "filename", default = "." } ]
+args = { mode = "debug", program = "{0}" }
+
+# --- TYPST ---
+
+[[language]]
+name = "typst"
+language-servers = ["tinymist"]
+formatter = { command = "tinymist", args = ["format", "-"] }
+auto-format = true
+
+[language-server.tinymist]
+command = "tinymist"
+config.exportPdf = "onSave"
+config.formatterMode = "typstyle"
+
+# --- HASKELL ---
+
+[[language]]
+name = "haskell"
+language-servers = [ "haskell-language-server" ]
+auto-format = true
+
+[language-server.haskell-language-server]
+command = "haskell-language-server-wrapper"
+args = ["--lsp"]
+
+[language-server.haskell-language-server.config.haskell]
+formattingProvider = "ormolu" # Alternativas: "fourmolu", "stylish-haskell", "floskell"
+checkProject = true
+checkParents = "CheckOnSave"
+maxCompletions = 40
+
+[[language]]
+name = "cabal"
+language-servers = [ "haskell-language-server" ]

@@ -1,0 +1,50 @@
+theme = "catppuccin_mocha"
+
+[editor]
+line-number = "relative"
+mouse = true
+bufferline = "multiple"
+auto-format = true
+color-modes = true
+rulers = [72, 79]
+idle-timeout = 200
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+
+[editor.indent-guides]
+render = true
+character = "│"
+skip-levels = 1
+
+[editor.statusline]
+left = ["mode", "spinner", "file-name"]
+center = ["diagnostics", "workspace-diagnostics"]
+right = ["selections", "position", "file-encoding", "file-line-ending", "file-type"]
+separator = "│"
+mode.normal = "NORMAL"
+mode.insert = "INSERT"
+mode.select = "SELECT"
+
+[editor.lsp]
+display-messages = true
+display-inlay-hints = true
+
+[keys.normal.space]
+l = ":pipe lfac-lang"
+t = ":pipe lfac-table"
+
+[keys.normal]
+"C-m" = ":pipe alc-step"
+"C-g" = ":pipe alc-gen"
+
+[keys.select]
+"C-m" = ":pipe alc-step"
+"C-g" = ":pipe alc-gen"
+
+[keys.select.space]
+l = ":pipe lfac-lang"
+t = ":pipe lfac-table"
