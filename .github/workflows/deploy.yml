@@ -1,7 +1,7 @@
-- name: PDFs e index.html
+- name: PDFs, index.html
         run: |
           mkdir -p public
-          
+
           find . -name "*.typ" -not -path "*/.*" | while read -r file; do
             clean="${file#./}"
             out="public/${clean%.typ}.pdf"
