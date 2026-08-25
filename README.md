@@ -1,4 +1,4 @@
-# [Álgebra Lineal Computacional]
+# Álgebra Lineal Computacional
 
 
 ## Apuntes

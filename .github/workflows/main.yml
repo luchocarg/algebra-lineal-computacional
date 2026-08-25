@@ -4,6 +4,10 @@ name: Deploy PDFs
   push:
     branches:
       - main
+    paths:
+      - '**/*.typ'
+      - '.github/scripts/gen_index.py'
+      - '.github/workflows/main.yml'
 
 permissions:
   contents: read
