@@ -211,26 +211,22 @@ def error(x, y):
     """
     flx = np.float64(x)
     fly = np.float64(y)
-    absVal = abs(flx - fly)
 
-    return np.float64(absVal)
+    return np.abs(flx - fly)
 
 
 def error_relativo(x, y):
     """
     Recibe dos numeros x e y, y calcula el error relativo de aproximar x usando y en float64
     """
-    """
-    if x == 0:
-        return ZeroDivisionError
-    """
 
     flx = np.float64(x)
     fly = np.float64(y)
 
-    res = abs(flx - fly) / abs(flx)
+    if flx == 0:
+        return 0 if fly == 0 else np.inf
 
-    return np.float64(res)
+    return np.abs(flx - fly) / np.abs(flx)
 
 
 def matricesIguales(A, B):
@@ -238,23 +234,10 @@ def matricesIguales(A, B):
     Devuelve True si ambas matrices son iguales y False en otro caso.
     Considerar que las matrices pueden tener distintas dimensiones, ademas de distintos valores.
     """
-    n, m = A.shape
-    n2, m2 = B.shape
+    A1 = np.asarray(A, dtype=np.float64)
+    B1 = np.asarray(B, dtype=np.float64)
 
-    if n != n2 or m != m2:
+    if A1.shape != B1.shape:
         return False
 
-    A1 = np.asarray(A)
-    B1 = np.asarray(B)
-
-    res = True
-
-    valEpsilons = {
-        t: np.finfo(t).eps for t in ["float16", "float32", "float64"]
-    }
-
-    for i in range(n):
-        for j in range(m):
-            if np.float64(A[i][j]) != np.float64(B[i][j]):
-                res = False
-    return res
+    return bool(np.all(np.abs(A1 - B1) <= np.finfo(np.float64).eps))
