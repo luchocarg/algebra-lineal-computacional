@@ -202,9 +202,6 @@ def row_echelon(A: Matriz[K]) -> None:
         ]
 
 
-epsilon = np.finfo("float64").eps
-
-
 def error(x, y):
     """
     Recibe dos numeros x e y, y calcula el error de aproximar x usando y en float64
@@ -240,4 +237,84 @@ def matricesIguales(A, B):
     if A1.shape != B1.shape:
         return False
 
-    return bool(np.all(np.abs(A1 - B1) <= np.finfo(np.float64).eps))
+    return np.allclose(A1, B1)
+
+
+def rota(theta):
+    coseno = np.cos(theta)
+    seno = np.sin(theta)
+
+    return np.array([[coseno, -seno], [seno, coseno]])
+
+
+def escala(s):
+    n = len(s)
+    s2 = np.asarray(s)
+
+    A = np.zeros((n, n), dtype=s2.dtype)
+
+    for i in range(n):
+        A[i, i] = s2[i]
+
+    return np.array(A, dtype=s2.dtype)
+
+
+def rota_y_escala(theta, s):
+    return np.array(escala(s) @ rota(theta), dtype=np.float64)
+
+
+def afin(theta, s, b):
+    x33 = rota_y_escala(theta, s)
+
+    return np.array(
+        [
+            [x33[0, 0], x33[0, 1], b[0]],
+            [x33[1, 0], x33[1, 1], b[1]],
+            [0, 0, 1],
+        ],
+        dtype=np.float64,
+    )
+
+
+def trans_afin(v, theta, s, b):
+    A = afin(theta, s, b) @ np.array([v[0], v[1], 1.0], dtype=np.float64)
+    return A[0:2]
+
+
+def norma(x, p):
+
+    p = float(p)
+
+    if p == 0:
+        return 0
+    elif p == np.inf:
+        return np.max(np.abs(x))
+
+    xp = np.sum(np.pow(np.abs(x), p))
+
+    return np.pow(xp, (1 / p))
+
+
+def normaliza(X, p):
+    p = float(p)
+
+    if p == 0:
+        return 0
+
+    res = []
+    for x in X:
+        abs_x = np.abs(x)
+
+        if p == np.inf:
+            norma = np.max(abs_x)
+        else:
+            norma = np.pow(np.sum(np.pow(abs_x, p)), (1 / p))
+
+        res.append(norma)
+
+    return res
+
+
+def normaMatMC(A, q, p, Np):
+
+    return
